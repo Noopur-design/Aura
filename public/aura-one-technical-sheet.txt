@@ -1,0 +1,41 @@
+AURA ONE — Technical sheet
+Concept specification. AURA is a fictional brand. Figures below are illustrative.
+
+Product
+AURA ONE AI-powered smart air purifier
+
+Price
+INR 34,999 (concept)
+
+Coverage
+750 sq ft (about 70 m²)
+
+Noise
+24 dB Sleep · up to 52 dB Boost
+
+Power
+45 W maximum · about 6 W in Sleep
+
+Weight
+7.8 kg
+
+Dimensions
+310 × 310 × 560 mm
+
+Filtration
+Pre-filter mesh · H13 HEPA · activated carbon
+
+Sensors
+PM2.5, PM10, VOC, CO₂, temperature, humidity
+
+Connectivity
+Wi-Fi, Bluetooth
+
+Filter life
+Up to 12 months in ordinary home use
+
+Warranty
+2 years
+
+Origin of this document
+Prepared for the AURA concept site, 2026. Not a certified laboratory report.

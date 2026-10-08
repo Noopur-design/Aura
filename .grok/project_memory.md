@@ -1,0 +1,3 @@
+- AURA concept site lives in artifacts/aura-site (Next.js 14 App Router). Flagship AURA ONE, ₹34,999, fictional specs. [2026-10-09]
+- Routes: /, /product, /technology, /experience, /app, /shop, /shop/aura-one, /specifications, /support, /about, /contact, /cart, /checkout. [2026-10-09]
+- Product visuals are consistent SVGs in public/images/aura plus lifestyle JPGs. 3D viewer is a CSS/pointer fallback (no GLB). [2026-10-09]

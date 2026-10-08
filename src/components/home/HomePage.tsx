@@ -5,7 +5,7 @@ import { Photo } from "@/components/media/Photo";
 import { ClientViewer } from "@/components/product/ClientViewer";
 import { AirflowVisualization } from "@/components/technology/AirflowVisualization";
 import { Button } from "@/components/ui/Button";
-import { formatINR } from "@/lib/utils";
+import { cn, formatINR } from "@/lib/utils";
 
 const AirChart = lazy(() => import("@/components/home/AirChart"));
 
@@ -177,14 +177,27 @@ function AngleStory() {
       <div className="lg:sticky lg:top-0 lg:flex lg:h-svh lg:items-center">
         <div className="aura-wrap grid items-center gap-10 py-24 lg:grid-cols-12 lg:py-0">
           <div className="lg:col-span-5">
-            <p className="eyebrow text-stone">{frame?.label}</p>
-            <h2 className="type-display mt-4">{frame?.copy}</h2>
+            <div key={index} className="angle-swap">
+              <p className="eyebrow text-stone">{frame?.label}</p>
+              <h2 className="type-display mt-4">{frame?.copy}</h2>
+            </div>
             <p className="mt-6 hidden text-stone lg:block">Scroll. The object turns with you.</p>
           </div>
           <div className="hidden lg:col-span-7 lg:block">
-            {frame ? (
-              <Photo src={frame.src} alt={frame.label} className="mx-auto h-auto max-h-[78vh] w-full object-contain" />
-            ) : null}
+            <div className="relative mx-auto h-[78vh] w-full">
+              {angles.map((item, i) => (
+                <Photo
+                  key={item.src}
+                  src={item.src}
+                  alt={item.label}
+                  priority={i === 0}
+                  className={cn(
+                    "absolute inset-0 mx-auto h-full w-full object-contain transition-opacity duration-700 ease-out motion-reduce:transition-none",
+                    i === index ? "opacity-100" : "opacity-0",
+                  )}
+                />
+              ))}
+            </div>
           </div>
           <div className="space-y-12 lg:hidden">
             {angles.map((item) => (

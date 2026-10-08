@@ -21,6 +21,10 @@ export function Navbar({ onSearch }: { onSearch: () => void }) {
   const [dark, setDark] = useState(false);
   const [open, setOpen] = useState(false);
   const [ready, setReady] = useState(false);
+  // Color transition is on while scrolling but off for the first paint of a new
+  // route, so landing on a page shows its tone instantly instead of fading from
+  // the previous page's tone.
+  const [animateTone, setAnimateTone] = useState(false);
 
   useEffect(() => setReady(true), []);
 
@@ -49,14 +53,29 @@ export function Navbar({ onSearch }: { onSearch: () => void }) {
       });
       setDark(next);
     };
-    const onScroll = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(read);
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(read);
     };
+    // Keep the color transition OFF for the route's initial tone so arriving
+    // from a dark page snaps to the new tone instead of fading the previous
+    // page's white links over it; the first scroll re-enables the fade.
+    setAnimateTone(false);
     read();
+    // TanStack renders the new route in a transition, so its content (and the
+    // data-nav section that decides the tone) commits a few frames after the
+    // path changes. Re-detect as the DOM settles instead of reading only once.
+    const observer = new MutationObserver(schedule);
+    observer.observe(document.body, { childList: true, subtree: true });
+    const stopObserving = window.setTimeout(() => observer.disconnect(), 1500);
+    const onScroll = () => {
+      setAnimateTone(true);
+      schedule();
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
+      observer.disconnect();
+      window.clearTimeout(stopObserving);
       cancelAnimationFrame(frame);
     };
   }, [pathname]);
@@ -66,7 +85,8 @@ export function Navbar({ onSearch }: { onSearch: () => void }) {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-40 transition-[background-color,border-color,color] duration-300",
+        "fixed inset-x-0 top-0 z-40",
+        animateTone && "transition-[background-color,border-color,color] duration-300",
         tone === "dark" ? "text-paper" : "text-ink",
         open && "bg-paper text-ink",
         !open && scrolled && tone === "dark" && "border-b border-pure/15 bg-ink/85 backdrop-blur-md",
